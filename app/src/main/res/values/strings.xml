@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AspenTravelApp</string>
+
+    <string name="Aspen">Aspen</string>
+    <string name="plan_your">Plan your</string>
+    <string name="luxurious">Luxurious</string>
+    <string name="vacation">Vacation</string>
+    <string name="explore">Explore</string>
+</resources>
