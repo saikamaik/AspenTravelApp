@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.aspentravelapp.launchScreen.components.BoxText.BoxLuxuriousText
-import com.example.aspentravelapp.launchScreen.components.BoxText.BoxPlanText
-import com.example.aspentravelapp.launchScreen.components.BoxText.BoxVacationText
+import com.example.aspentravelapp.launchScreen.components.boxText.BoxLuxuriousText
+import com.example.aspentravelapp.launchScreen.components.boxText.BoxPlanText
+import com.example.aspentravelapp.launchScreen.components.boxText.BoxVacationText
 
 @Composable
 fun BottomText(modifier: Modifier) {
