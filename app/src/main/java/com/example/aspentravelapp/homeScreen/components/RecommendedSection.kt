@@ -34,6 +34,8 @@ fun RecommendedSection(
                 fontWeight = FontWeight.Bold
             )
         }
-        LocationRecommendedContent(locations = locations)
+        LocationRecommendedContent(
+            locations = locations
+        )
     }
 }

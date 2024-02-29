@@ -39,26 +39,24 @@ fun ImageCard(
     location: Location,
     contentDescription: String = ""
 ) {
-
     var thumbIconLiked by remember {
         mutableStateOf(false)
     }
-
     val interactionSource = remember { MutableInteractionSource() }
 
     Card(
-        shape = RoundedCornerShape(24.dp)
+        shape = RoundedCornerShape(24.dp),
+        modifier = Modifier.clickable {
+            navHostController.navigate(route = Screen.ItemInfo.route + "/${location.id}")
+        }
     ) {
         Box(
             modifier = Modifier
                 .height(240.dp)
                 .width(180.dp)
-                .clickable {
-                    navHostController.navigate(route = Screen.Launch.route) //TODO
-                }
         ) {
             Image(
-                painter = location.paintRes,
+                painter = painterResource(id = location.paintRes),
                 contentDescription = contentDescription,
                 modifier = Modifier.fillMaxSize()
             )

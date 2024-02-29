@@ -1,9 +1,30 @@
 <resources>
     <string name="app_name">AspenTravelApp</string>
 
+    <!-- Main -->
     <string name="Aspen">Aspen</string>
     <string name="plan_your">Plan your</string>
     <string name="luxurious">Luxurious</string>
     <string name="vacation">Vacation</string>
+
+    <!-- Home -->
     <string name="explore">Explore</string>
+
+    <!-- Item Info -->
+    <string name="reviews">&#160;Reviews)</string>
+    <string name="show_map">Show map</string>
+    <string name="read_more">Read more</string>
+    <string name="facilities">Facilities</string>
+    <string name="price">Price</string>
+    
+    <string name="alley_palace_desc">Тридцатишестиэтажный жилой комплекс Аллея Палас,
+        в котором имеется 589 квартир с тщательно продуманными планировками, возводится всего лишь
+        в ста пятидесяти метрах от моря. ЖК на ул. Тбел Абусеридзе в Батуми сооружается по
+        современным технологиям с использованием наиболее качественных и экологичных материалов.
+        Такой подход к возведению дома гарантирует значительное снижение затрат на коммунальные
+        услуги и необходимый уровень комфорта.</string>
+
+    <string name="coeur_des_alpes_desc">Найти идеальный семейный отель в Церматте не должно быть сложной задачей. Добро пожаловать в Кёр Дез Альп, прекрасный выбор для таких путешественников, как вы. Вы сможете прекрасно отдохнуть в номерах с ТВ с плоским экраном и мини-баром. Вы также cможете постоянно быть на связи, так как Coeur Des Alpes Hotel предлагает гостям бесплатный Wi-Fi.</string>
+    <string name="explore_aspen_desc">It was our first trip to Aspen/Snowmass and we were pleasantly pleased with this great, local bookstore. They had an incredible selection, warm staff and vibe, and fun little rooms throughout (upstairs too!) with different sections. We didn\'t try the cafe upstairs but were tempted. We were only in Aspen for a week but visited this store 3 times! </string>
+    <string name="luxurious_aspen">This was an interesting find in Aspen. Lovely house/store with an interesting mix of selections. For a town that is so non-diverse (residents and visitors), I was surprised to see the diversity of authors featured. Many international authors, and current featured authors. Additionally, old time classics were also available.</string>
 </resources>

@@ -10,13 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.aspentravelapp.model.Location
 import com.example.aspentravelapp.model.Locations
+import com.example.aspentravelapp.model.Type
 
 @Composable
 fun LocationContent(
     navHostController: NavHostController,
     locations: Locations
 ) {
+    val popularLocation: MutableList<Location> = mutableListOf()
 
     LazyRow(
         modifier = Modifier
@@ -25,8 +28,12 @@ fun LocationContent(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
+        for (location in locations) {
+            if (location.type == Type.POPULAR)
+                popularLocation += location
+        }
         items(
-            items = locations
+            items = popularLocation
         ) { location ->
             ImageCard(
                 location = location,

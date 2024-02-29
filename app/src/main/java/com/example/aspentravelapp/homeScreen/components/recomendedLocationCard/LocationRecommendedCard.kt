@@ -51,7 +51,7 @@ fun LocationRecommendedCard(
                 Box(
                 ) {
                     Image(
-                        painter = location.paintRes,
+                        painter = painterResource(id = location.paintRes),
                         contentDescription = contentDescription,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -84,7 +84,7 @@ fun LocationRecommendedCard(
                         }
                     }
                     Text(
-                        text = location.days!!, //Потом можно будет заменить location.days или типа того
+                        text = location.days!!,
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
                         style = Typography.titleSmall,
@@ -93,7 +93,7 @@ fun LocationRecommendedCard(
                             .align(Alignment.BottomEnd)
                             .padding(
                                 end = 12.dp,
-                                top = location.paintRes.intrinsicSize.height.dp,
+                                top = painterResource(id = location.paintRes).intrinsicSize.height.dp,
                                 bottom = 20.dp
                             )
                             .background(

@@ -11,17 +11,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -32,7 +26,6 @@ import com.example.aspentravelapp.homeScreen.components.RecommendedSection
 import com.example.aspentravelapp.homeScreen.components.search.Search
 import com.example.aspentravelapp.homeScreen.components.tabs.TabButtonBar
 import com.example.aspentravelapp.launchScreen.components.boxText.BoxGradient
-import com.example.aspentravelapp.model.Location
 import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
@@ -44,79 +37,15 @@ fun HomeScreen(
     val labels = listOf(
         "Location", "Hotels", "Food", "Adventure", "Adventure2"
     )
-    var selectedOption by remember {
-        mutableStateOf("Location")
-    }
-
-    fun onSelectionChange() = { text: String ->
-        selectedOption = text
-    }
-
-    var image by remember {
-        mutableStateOf(IntSize.Zero)
-    }
-
-// Потом можно добавить поле type в location чтобы был фулл список всех локаций
-// но выбиралось по типу
-    val locations: List<Location> = listOf(
-        Location(
-            id = 0,
-            name = "Alley Palace",
-            description = "test1",
-            null,
-            price = null,
-            rating = "4.1",
-            paintRes = painterResource(id = R.drawable.imgfirst_background),
-            null
-        ),
-        Location(
-            id = 1,
-            name = "Coeurdes Alpes",
-            description = "test2",
-            null,
-            price = null,
-            rating = "4.5",
-            paintRes = painterResource(id = R.drawable.imgsec_background),
-            null
-        )
-    )
-
-    val recLocations: List<Location> = listOf(
-        Location(
-            id = 0,
-            name = "Explore Aspen",
-            description = "test1",
-            null,
-            price = null,
-            rating = "4.1",
-            paintRes = painterResource(id = R.drawable.location_rec_first_background),
-            "4N/5D"
-        ),
-        Location(
-            id = 1,
-            name = "Luxurious Aspen",
-            description = "test2",
-            null,
-            price = null,
-            rating = "4.5",
-            paintRes = painterResource(id = R.drawable.location_rec_second_backbround),
-            "2N/3D"
-        )
-    )
-
-    fun onClickMenuItem(locationName: String) {
-        locationName.substringBefore(",")
-
-    }
 
     Box(
         Modifier
             .background(Color.White)
             .onGloballyPositioned {
-                image = it.size
+                viewModel.image = it.size
             }
     ) {
-        BoxGradient(image = image)
+        BoxGradient(image = viewModel.image)
         Column(
             modifier = Modifier
                 .padding(
@@ -136,10 +65,12 @@ fun HomeScreen(
                     style = Typography.bodyMedium
                 )
                 Spacer(Modifier.weight(1f))
-                CitiesDropDownMenu() //todo сделать чтобы менялось название на главном экране
+                CitiesDropDownMenu(
+                    viewModel
+                )
             }
             Text(
-                text = stringResource(id = R.string.Aspen),
+                text = viewModel.selectedLocation.substringBefore(","),
                 style = Typography.labelMedium
             )
             Search(
@@ -150,11 +81,16 @@ fun HomeScreen(
             Spacer(modifier = Modifier.weight(4f))
             TabButtonBar(
                 labels = labels,
-                selectedOption = selectedOption,
-                onSelectionChange()
+                selectedOption = viewModel.selectedOption,
+                viewModel.onSelectionChange()
             )
-            PopularSection(locations = locations, navHostController = navHostController)
-            RecommendedSection(locations = recLocations)
+            PopularSection(
+                locations = viewModel.location,
+                navHostController = navHostController
+            )
+            RecommendedSection(
+                locations = viewModel.location
+            )
         }
     }
 }

@@ -24,16 +24,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.aspentravelapp.R
+import com.example.aspentravelapp.homeScreen.HomeViewModel
 import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
 fun CitiesDropDownMenu(
+    viewModel: HomeViewModel
 ) {
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedItem by remember {
-        mutableStateOf("Aspen, USA")
-    }
     val configuration = LocalConfiguration.current
     val textfieldSize = configuration.screenWidthDp.dp / 2
 
@@ -61,7 +60,7 @@ fun CitiesDropDownMenu(
                     .align(Alignment.Bottom)
             )
             Text(
-                text = selectedItem,
+                text = viewModel.selectedItem,
                 style = Typography.bodySmall
             )
             Image(
@@ -81,9 +80,9 @@ fun CitiesDropDownMenu(
             citiesList.forEach { location ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedItem = location
+                        viewModel.selectedItem = location
                         expanded = false
-//                        onClickMenuItem(location)
+                        viewModel.changeSelectedMenuItem(location)
                     },
                     text = {
                         Text(
