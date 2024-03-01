@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.aspentravelapp.R
+import com.example.aspentravelapp.itemInfoScreen.HeartIcons
 import com.example.aspentravelapp.model.Location
 import com.example.aspentravelapp.navigation.Screen
 import com.example.aspentravelapp.ui.theme.GreenGray
@@ -81,24 +81,17 @@ fun ImageCard(
                             locationRating = location.rating
                         )
                         Spacer(modifier = Modifier.weight(1f))
-                        Image(              // Иконка сердца
+                        HeartIcons(
                             modifier = Modifier
-                                .padding(bottom = 16.dp, end = 16.dp, top = 6.dp)
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    null // Чтобы не было clickable эффекта
-                                ) {
-                                    thumbIconLiked = !thumbIconLiked
-                                }
-                                .size(24.dp),
-                            painter = painterResource(
-                                id = if (thumbIconLiked) {
-                                    R.drawable.heart_icon
-                                } else {
-                                    R.drawable.unfilled_heart_icon
-                                }
-                            ),
-                            contentDescription = "",
+                            .padding(bottom = 16.dp, end = 16.dp, top = 6.dp)
+                            .clickable(
+                                interactionSource = interactionSource,
+                                null // Чтобы не было clickable эффекта
+                            ) {
+                                thumbIconLiked = !thumbIconLiked
+                            }
+                            .size(24.dp),
+                            thumbIconLiked = thumbIconLiked
                         )
                     }
                 }

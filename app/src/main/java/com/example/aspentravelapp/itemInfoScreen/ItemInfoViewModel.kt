@@ -8,7 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aspentravelapp.domain.LocationRepository
-import com.example.aspentravelapp.model.Locations
+import com.example.aspentravelapp.model.Location
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +17,10 @@ import javax.inject.Inject
 class ItemInfoViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val argument: Int = savedStateHandle["id"]!!
-    var locations by mutableStateOf<Locations>(listOf())
+    lateinit var locations: Location
     var expanded by mutableStateOf(false)
     val extraPadding = if (expanded) 4.dp else 0.dp
 
@@ -33,10 +33,8 @@ class ItemInfoViewModel @Inject constructor(
     }
 
     private fun getOneLocation(id: Int) = viewModelScope.launch {
-        locationRepository.getOneLocation(id).collect() {
-            response ->
-            locations = emptyList()
-            locations = listOf(response)
+        locationRepository.getOneLocation(id).collect() { response ->
+            locations = response
         }
     }
 }

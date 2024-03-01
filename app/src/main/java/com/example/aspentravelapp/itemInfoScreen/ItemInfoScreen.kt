@@ -5,13 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -42,10 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aspentravelapp.R
+import com.example.aspentravelapp.itemInfoScreen.components.BottomButtonBar
 import com.example.aspentravelapp.itemInfoScreen.components.ExpandableText
 import com.example.aspentravelapp.itemInfoScreen.components.FacilityCardRow
 import com.example.aspentravelapp.ui.theme.DarkerGray
-import com.example.aspentravelapp.ui.theme.LightGreen
 import com.example.aspentravelapp.ui.theme.LightTeal
 import com.example.aspentravelapp.ui.theme.Teal
 import com.example.aspentravelapp.ui.theme.Typography
@@ -59,7 +57,8 @@ fun ItemInfoScreen(
 
     var thumbIconLiked by remember {
         mutableStateOf(false)
-    }
+    } //если убрать во вью модел то меняется состояние всех кнопок
+
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -67,8 +66,7 @@ fun ItemInfoScreen(
 
     val interactionSource = remember { MutableInteractionSource() }
 
-    val locations = viewModel.locations
-    val location = locations[0]
+    val location = viewModel.locations
 
     Box(
         modifier = Modifier
@@ -78,11 +76,11 @@ fun ItemInfoScreen(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp)
+                .fillMaxHeight()
                 .verticalScroll(
                     rememberScrollState()
                 )
+                .padding(20.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -119,16 +117,7 @@ fun ItemInfoScreen(
                             .size(10.dp, 15.dp)
                     )
                 }
-                Icon(
-                    painter = painterResource(
-                        id = if (thumbIconLiked) {
-                            R.drawable.heart_icon
-                        } else {
-                            R.drawable.unfilled_heart_icon
-                        }
-                    ),
-                    tint = Color.Unspecified,
-                    contentDescription = "",
+                HeartIcons(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(
@@ -146,7 +135,8 @@ fun ItemInfoScreen(
                             ambientColor = LightTeal,
                             shape = CircleShape,
                             spotColor = Teal
-                        )
+                        ),
+                    thumbIconLiked = thumbIconLiked
                 )
             }
             Row(
@@ -166,7 +156,6 @@ fun ItemInfoScreen(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
-
             Row(
                 modifier = Modifier.padding(top = 6.dp, bottom = 16.dp)
             ) {
@@ -199,7 +188,6 @@ fun ItemInfoScreen(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 20.dp)
             )
-
             Row(
                 modifier = Modifier.padding(bottom = 50.dp)
             ) {//Facilities
@@ -207,56 +195,14 @@ fun ItemInfoScreen(
             }
 
         }
-        Row(
+        //Нижний бар с ценой и кнопкой оформления
+        BottomButtonBar(
             modifier = Modifier
-                .padding(20.dp)
-                .padding(top = 29.dp)
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .background(Color.White),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .background(Color.White)
+                .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp)
+                .align(Alignment.BottomCenter),
+            location = location
         )
-        {
-            Column( //Цена
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.price),
-                    style = Typography.bodySmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-                Text(
-                    text = location.price.toString() + "$",
-                    color = LightGreen,
-                    style = Typography.labelSmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Button( //Кнопка Book Now
-                onClick = {
-                    /*TODO*/
-                },
-                colors = ButtonDefaults.buttonColors(
-                    Teal
-                ),
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier.weight(2f)
-            ) {
-                Text(
-                    text = "Book Now",
-                    style = Typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 9.dp, bottom = 9.dp, end = 10.dp)
-                )
-                Icon(
-                    painter = painterResource(
-                        id = R.drawable.arror_right
-                    ),
-                    contentDescription = "",
-                    tint = Color.White
-                )
-            }
-        }
     }
 }

@@ -47,7 +47,7 @@ object LocationObject {
             Location(
                 id = 1,
                 name = "Coeurdes Alpes",
-                description = R.string.coeur_des_alpes_desc, //TODO Пока так, но вообще это стринга с огромным текстом, которая должна лежать на бэке
+                description = R.string.coeur_des_alpes_desc,
                 listOf(
                     Facility(
                         "Pool",
@@ -64,7 +64,7 @@ object LocationObject {
             Location(
                 id = 3,
                 name = "Explore Aspen",
-                description = R.string.explore_aspen_desc, //TODO Пока так, но вообще это стринга с огромным текстом, которая должна лежать на бэке
+                description = R.string.explore_aspen_desc,
                 listOf(
                     Facility(
                         name = "Dinner",
@@ -89,7 +89,7 @@ object LocationObject {
             Location(
                 id = 4,
                 name = "Luxurious Aspen",
-                description = R.string.luxurious_aspen, //TODO Пока так, но вообще это стринга с огромным текстом, которая должна лежать на бэке
+                description = R.string.luxurious_aspen,
                 listOf(),
                 price = 100,
                 rating = "4.5",

@@ -55,7 +55,7 @@ fun HomeScreen(
                 )
                 .verticalScroll(
                     rememberScrollState()
-                ) //TODO скролл но серч вью + топ бар не пропадают
+                )
         ) {
             Row(
                 verticalAlignment = Alignment.Top
