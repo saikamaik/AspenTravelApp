@@ -11,7 +11,7 @@ data class Location(
     val id: Int,
     val name: String,
     val description: Int,
-    val facilities: List<Facility>?,
+    val facilities: List<Facility>,
     val price: Int,
     val rating: String,
     val reviews: Int,

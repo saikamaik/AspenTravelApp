@@ -24,6 +24,7 @@ class LocationRepositoryImpl @Inject constructor(): LocationRepository {
 
     }
 
+    //На случай, если к приложению будет подключаться апи, сделала через flow (и чтобы попробовать корутины в принципе)
     override fun getOneLocation(id: Int): Flow<Location> = callbackFlow {
         coroutineScope {
             val location = LocationObject.getOneLocation(id)
@@ -35,6 +36,5 @@ class LocationRepositoryImpl @Inject constructor(): LocationRepository {
 
         }
     }
-
 
 }
