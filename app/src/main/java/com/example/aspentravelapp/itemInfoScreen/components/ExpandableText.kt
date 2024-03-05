@@ -16,6 +16,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.aspentravelapp.R
 import com.example.aspentravelapp.itemInfoScreen.ItemInfoViewModel
+import com.example.aspentravelapp.itemInfoScreen.uievent.ItemInfoUiEvent
+import com.example.aspentravelapp.itemInfoScreen.uistate.ItemInfoUiState
 import com.example.aspentravelapp.model.Location
 import com.example.aspentravelapp.ui.theme.GreenGray
 import com.example.aspentravelapp.ui.theme.Teal
@@ -24,6 +26,7 @@ import com.example.aspentravelapp.ui.theme.Typography
 @Composable
 fun ExpandableText(
     viewModel: ItemInfoViewModel,
+    uiState: ItemInfoUiState,
     location: Location
 ) {
 
@@ -34,20 +37,20 @@ fun ExpandableText(
 
         Text(
             text = stringResource(id = location.description),
-            maxLines = if (viewModel.expanded) Int.MAX_VALUE else 4,
+            maxLines = if (uiState.isExpanded) Int.MAX_VALUE else 4,
             overflow = TextOverflow.Ellipsis,
             style = Typography.bodyMedium,
             color = GreenGray,
             fontWeight = FontWeight.SemiBold
         )
-        if (!viewModel.expanded) {
+        if (!uiState.isExpanded) {
             Row(
                 modifier = Modifier
                     .padding(top = 9.dp)
                     .clickable(
 
                     ) {
-                        viewModel.onClick()
+                        viewModel.postUiEvent(ItemInfoUiEvent.OnClick)
                     }
             ) {
                 Text(
@@ -69,7 +72,7 @@ fun ExpandableText(
                 modifier = Modifier
                     .padding(top = 9.dp)
                     .clickable {
-                        viewModel.onClick()
+                        viewModel.postUiEvent(ItemInfoUiEvent.OnClick)
                     }
             ) {
                 Text(

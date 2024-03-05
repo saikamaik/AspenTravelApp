@@ -1,42 +1,79 @@
 package com.example.aspentravelapp.homeScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.aspentravelapp.data.CityRepository
 import com.example.aspentravelapp.domain.LocationRepository
-import com.example.aspentravelapp.model.Locations
+import com.example.aspentravelapp.homeScreen.uievent.HomeUiEvent
+import com.example.aspentravelapp.homeScreen.uistate.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val cityRepository: CityRepository
 ) : ViewModel() {
 
-    var location by mutableStateOf<Locations>(listOf())
-    var selectedLocation by mutableStateOf("Aspen") //Текущая локация страницы
-    var selectedOption by mutableStateOf("Location") //Выбранный айтем в таб баре
-    var image by mutableStateOf(IntSize.Zero)
-    var selectedItem by mutableStateOf("Aspen, USA") //Выбранный айтем в выпадающей менюшке городов
-    fun onSelectionChange() = { text: String ->
-        selectedOption = text
-    }
+    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
+    var uiState: StateFlow<HomeUiState> = _uiState
 
     init {
         getLocation()
     }
 
-    private fun getLocation() = viewModelScope.launch {
-        locationRepository.getAllLocations().collect() { response ->
-            location = response
+    fun postUiEvent(event: HomeUiEvent) {
+        when (event) {
+            is HomeUiEvent.ExpandDropDownMenu -> expandDropDownMenu()
+            is HomeUiEvent.ChangeSelectedMenuItem -> changeSelectedMenuItem(event.item)
+            is HomeUiEvent.ChangeSelectedTabOption -> onSelectionChange(event.item)
+            is HomeUiEvent.ChangeImageSize -> changeImageSizeValue(event.size)
         }
     }
 
-    fun changeSelectedMenuItem(item: String) {
-        selectedLocation = item
+    private fun changeImageSizeValue(size: IntSize) {
+        _uiState.value = _uiState.value.copy(imageSize = size)
+    }
+
+    private fun expandDropDownMenu() {
+        _uiState.value =
+            _uiState.value.copy(isDropDownMenuExpanded = !_uiState.value.isDropDownMenuExpanded)
+    }
+
+    private fun changeSelectedMenuItem(item: String) {
+        _uiState.value = _uiState.value.copy(selectedLocation = item)
+        _uiState.value = _uiState.value.copy(selectedItem = item)
+    }
+
+    private fun onSelectionChange(item: String) {
+        _uiState.value = _uiState.value.copy(selectedTabOption = item)
+    }
+
+    private fun getLocation() = viewModelScope.launch {
+        locationRepository.getAllLocations().collect { response ->
+            _uiState.value = _uiState.value.copy(location = response)
+        }
+    }
+
+    private fun getCity(name: String) {
+        viewModelScope.launch {
+            cityRepository.getCity(name).asFlow().collect() {
+                _uiState.value.matchedCities += it
+            }
+            _uiState.value = _uiState.value.copy(isSearching = false)
+        }
+    }
+
+    fun onSearchTextChanged(changedSearchText: String) {
+        _uiState.value = _uiState.value.copy(searchText = changedSearchText)
+        _uiState.value = _uiState.value.copy(matchedCities = listOf())
+        _uiState.value = _uiState.value.copy(isSearching = true)
+        getCity(changedSearchText)
     }
 }
+

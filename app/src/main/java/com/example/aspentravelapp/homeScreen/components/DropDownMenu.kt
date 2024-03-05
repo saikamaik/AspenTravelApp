@@ -13,10 +13,6 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,14 +21,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.aspentravelapp.R
 import com.example.aspentravelapp.homeScreen.HomeViewModel
+import com.example.aspentravelapp.homeScreen.uievent.HomeUiEvent
+import com.example.aspentravelapp.homeScreen.uistate.HomeUiState
 import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
 fun CitiesDropDownMenu(
+    uiState: HomeUiState,
     viewModel: HomeViewModel
 ) {
 
-    var expanded by remember { mutableStateOf(false) }
     val configuration = LocalConfiguration.current
     val textfieldSize = configuration.screenWidthDp.dp / 2
 
@@ -48,7 +46,7 @@ fun CitiesDropDownMenu(
         Row(
             modifier = Modifier
                 .clickable {
-                    expanded = !expanded
+                    viewModel.postUiEvent(HomeUiEvent.ExpandDropDownMenu)
                 }
         ) {
             Image(
@@ -60,7 +58,7 @@ fun CitiesDropDownMenu(
                     .align(Alignment.Bottom)
             )
             Text(
-                text = viewModel.selectedItem,
+                text = uiState.selectedItem,
                 style = Typography.bodySmall
             )
             Image(
@@ -73,16 +71,17 @@ fun CitiesDropDownMenu(
         }
 
         DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
+            expanded = uiState.isDropDownMenuExpanded,
+            onDismissRequest = {
+                viewModel.postUiEvent(HomeUiEvent.ExpandDropDownMenu)
+            },
             modifier = Modifier.width(textfieldSize)
         ) {
             citiesList.forEach { location ->
                 DropdownMenuItem(
                     onClick = {
-                        viewModel.selectedItem = location
-                        expanded = false
-                        viewModel.changeSelectedMenuItem(location)
+                        viewModel.postUiEvent(HomeUiEvent.ExpandDropDownMenu)
+                        viewModel.postUiEvent(HomeUiEvent.ChangeSelectedMenuItem(location))
                     },
                     text = {
                         Text(

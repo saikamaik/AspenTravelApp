@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.relay") version "0.3.11"
 }
 
 android {
@@ -77,6 +76,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.5.0")
 
         //Hilt
     implementation("com.google.dagger:hilt-android:2.50")

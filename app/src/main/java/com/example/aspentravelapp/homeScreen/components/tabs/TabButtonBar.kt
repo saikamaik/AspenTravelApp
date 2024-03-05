@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.aspentravelapp.homeScreen.HomeViewModel
+import com.example.aspentravelapp.homeScreen.uievent.HomeUiEvent
 import com.example.aspentravelapp.ui.theme.LightTeal
 import com.example.aspentravelapp.ui.theme.Teal
 
@@ -17,7 +19,7 @@ import com.example.aspentravelapp.ui.theme.Teal
 fun TabButtonBar(
     labels: List<String>,
     selectedOption: String,
-    onSelectionChange: (String) -> Unit
+    viewModel: HomeViewModel
 ) {
 
     Row( // Tab'ы
@@ -30,11 +32,11 @@ fun TabButtonBar(
             TabButton(
                 text = text,
                 onClick = {
-                    onSelectionChange(text)
+                    viewModel.postUiEvent(HomeUiEvent.ChangeSelectedTabOption(text))
                 },
                 modifier = Modifier
                     .clickable {
-                        onSelectionChange(text)
+                        viewModel.postUiEvent(HomeUiEvent.ChangeSelectedTabOption(text))
                     }
                     .padding(end = 2.dp),
                 color = if (text == selectedOption) {

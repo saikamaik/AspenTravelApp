@@ -22,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +56,8 @@ fun ItemInfoScreen(
     viewModel: ItemInfoViewModel = hiltViewModel()
 ) {
 
+    val uiState by viewModel.uiState.collectAsState()
+
     var thumbIconLiked by remember {
         mutableStateOf(false)
     } //если убрать во вью модел то меняется состояние всех кнопок
@@ -65,8 +68,6 @@ fun ItemInfoScreen(
     val screenHeight = configuration.screenHeightDp.dp
 
     val interactionSource = remember { MutableInteractionSource() }
-
-    val location = viewModel.locations
 
     Box(
         modifier = Modifier
@@ -88,7 +89,7 @@ fun ItemInfoScreen(
                     .size(height = screenHeight / 2, width = screenWidth)
             ) {
                 Image(
-                    painter = painterResource(id = location.paintRes),
+                    painter = painterResource(id = viewModel.locations.paintRes),
                     contentDescription = "",
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
@@ -143,7 +144,7 @@ fun ItemInfoScreen(
                 modifier = Modifier.padding(top = 7.dp)
             ) {
                 Text(
-                    text = location.name,
+                    text = viewModel.locations.name,
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                 )
@@ -166,12 +167,12 @@ fun ItemInfoScreen(
                     modifier = Modifier.size(16.dp)
                 )
                 Text(
-                    text = location.rating,
+                    text = viewModel.locations.rating,
                     style = Typography.bodySmall,
                     color = DarkerGray
                 )
                 Text(
-                    text = " (" + location.reviews + stringResource(id = R.string.reviews),
+                    text = " (" + viewModel.locations.reviews + stringResource(id = R.string.reviews),
                     style = Typography.bodySmall,
                     color = DarkerGray
                 )
@@ -179,7 +180,8 @@ fun ItemInfoScreen(
 
             ExpandableText( //Разворачиващееся описание айтема
                 viewModel = viewModel,
-                location = location
+                uiState = uiState,
+                location = viewModel.locations
             )
 
             Text(
@@ -191,9 +193,8 @@ fun ItemInfoScreen(
             Row(
                 modifier = Modifier.padding(bottom = 50.dp)
             ) {//Facilities
-                FacilityCardRow(facilities = location.facilities)
+                FacilityCardRow(facilities = viewModel.locations.facilities)
             }
-
         }
         //Нижний бар с ценой и кнопкой оформления
         BottomButtonBar(
@@ -202,7 +203,7 @@ fun ItemInfoScreen(
                 .background(Color.White)
                 .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 20.dp)
                 .align(Alignment.BottomCenter),
-            location = location
+            location = viewModel.locations
         )
     }
 }

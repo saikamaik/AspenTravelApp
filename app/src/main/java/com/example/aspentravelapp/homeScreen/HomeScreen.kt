@@ -5,12 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,8 +24,9 @@ import com.example.aspentravelapp.R
 import com.example.aspentravelapp.homeScreen.components.CitiesDropDownMenu
 import com.example.aspentravelapp.homeScreen.components.PopularSection
 import com.example.aspentravelapp.homeScreen.components.RecommendedSection
-import com.example.aspentravelapp.homeScreen.components.search.Search
+import com.example.aspentravelapp.homeScreen.components.search.SearchBarUI
 import com.example.aspentravelapp.homeScreen.components.tabs.TabButtonBar
+import com.example.aspentravelapp.homeScreen.uievent.HomeUiEvent
 import com.example.aspentravelapp.launchScreen.components.boxText.BoxGradient
 import com.example.aspentravelapp.ui.theme.Typography
 
@@ -34,6 +36,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
+    val uiState by viewModel.uiState.collectAsState()
+
     val labels = listOf(
         "Location", "Hotels", "Food", "Adventure", "Adventure2"
     )
@@ -42,10 +46,10 @@ fun HomeScreen(
         Modifier
             .background(Color.White)
             .onGloballyPositioned {
-                viewModel.image = it.size
+                viewModel.postUiEvent(HomeUiEvent.ChangeImageSize(it.size))
             }
     ) {
-        BoxGradient(image = viewModel.image)
+        BoxGradient(image = uiState.imageSize)
         Column(
             modifier = Modifier
                 .padding(
@@ -66,30 +70,26 @@ fun HomeScreen(
                 )
                 Spacer(Modifier.weight(1f))
                 CitiesDropDownMenu(
-                    viewModel
+                    uiState, viewModel
                 )
             }
             Text(
-                text = viewModel.selectedLocation.substringBefore(","),
+                text = uiState.selectedLocation.substringBefore(","),
                 style = Typography.labelMedium
             )
-            Search(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp)
-            )
-            Spacer(modifier = Modifier.weight(4f))
+            SearchBarUI(viewModel = viewModel,
+                uiState = uiState)
             TabButtonBar(
                 labels = labels,
-                selectedOption = viewModel.selectedOption,
-                viewModel.onSelectionChange()
+                selectedOption = uiState.selectedTabOption,
+                viewModel
             )
             PopularSection(
-                locations = viewModel.location,
+                locations = uiState.location,
                 navHostController = navHostController
             )
             RecommendedSection(
-                locations = viewModel.location
+                locations = uiState.location
             )
         }
     }

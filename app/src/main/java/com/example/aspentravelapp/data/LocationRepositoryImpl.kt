@@ -24,7 +24,7 @@ class LocationRepositoryImpl @Inject constructor(): LocationRepository {
 
     }
 
-    //На случай, если к приложению будет подключаться апи/бд, сделала через flow
+    //На случай, если к приложению будет подключаться бд, сделала через flow
 
     override fun getOneLocation(id: Int): Flow<Location> = callbackFlow {
         coroutineScope {
