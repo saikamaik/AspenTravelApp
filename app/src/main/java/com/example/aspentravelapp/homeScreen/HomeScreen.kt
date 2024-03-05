@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.aspentravelapp.R
 import com.example.aspentravelapp.homeScreen.components.CitiesDropDownMenu
 import com.example.aspentravelapp.homeScreen.components.PopularSection
@@ -32,7 +31,7 @@ import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
 fun HomeScreen(
-    navHostController: NavHostController,
+    navigateToItemInfo: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -86,7 +85,7 @@ fun HomeScreen(
             )
             PopularSection(
                 locations = uiState.location,
-                navHostController = navHostController
+                navigateToItemInfo = navigateToItemInfo
             )
             RecommendedSection(
                 locations = uiState.location

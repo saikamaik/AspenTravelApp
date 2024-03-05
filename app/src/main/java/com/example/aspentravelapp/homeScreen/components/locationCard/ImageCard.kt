@@ -26,16 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.aspentravelapp.itemInfoScreen.HeartIcons
 import com.example.aspentravelapp.model.Location
-import com.example.aspentravelapp.navigation.Screen
 import com.example.aspentravelapp.ui.theme.GreenGray
 import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
 fun ImageCard(
-    navHostController: NavHostController,
+    navigateToItemInfo: (Int) -> Unit,
     location: Location,
     contentDescription: String = ""
 ) {
@@ -47,7 +45,7 @@ fun ImageCard(
     Card(
         shape = RoundedCornerShape(24.dp),
         modifier = Modifier.clickable {
-            navHostController.navigate(route = Screen.ItemInfo.route + "/${location.id}")
+            navigateToItemInfo(location.id)
         }
     ) {
         Box(

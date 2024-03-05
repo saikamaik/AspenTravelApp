@@ -18,10 +18,18 @@ fun Navigation(navController: NavHostController) {
         startDestination = Screen.Launch.route
     ) {
         composable(Screen.Launch.route) {
-            LaunchScreen(navController)
+            LaunchScreen(
+                navigateToHomeScreen = {
+                    navController.navigate(Screen.Home.route)
+                }
+            )
         }
         composable(Screen.Home.route) {
-            HomeScreen(navController)
+            HomeScreen(
+                navigateToItemInfo = { id ->
+                    navController.navigate(Screen.ItemInfo.route + "/$id")
+                }
+            )
         }
         composable(
             Screen.ItemInfo.route + "/{id}",

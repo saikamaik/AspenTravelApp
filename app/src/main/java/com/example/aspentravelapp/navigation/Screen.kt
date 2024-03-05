@@ -10,6 +10,6 @@ sealed class Screen(
         route = "home_screen"
     )
     object ItemInfo: Screen(
-        route = "item-info_screen"
+        route = "item-info_screen/"
     )
 }

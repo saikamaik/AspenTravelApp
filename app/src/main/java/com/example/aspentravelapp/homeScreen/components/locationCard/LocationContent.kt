@@ -9,14 +9,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.aspentravelapp.model.Location
 import com.example.aspentravelapp.model.Locations
 import com.example.aspentravelapp.model.Type
 
 @Composable
 fun LocationContent(
-    navHostController: NavHostController,
+    navigateToItemInfo: (Int) -> Unit,
     locations: Locations
 ) {
     val popularLocation: MutableList<Location> = mutableListOf()
@@ -38,7 +37,7 @@ fun LocationContent(
             ImageCard(
                 location = location,
                 contentDescription = "",
-                navHostController = navHostController
+                navigateToItemInfo = navigateToItemInfo
             )
         }
     }

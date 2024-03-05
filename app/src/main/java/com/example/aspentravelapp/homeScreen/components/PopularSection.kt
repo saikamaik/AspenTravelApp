@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.aspentravelapp.homeScreen.components.locationCard.LocationContent
 import com.example.aspentravelapp.model.Locations
 import com.example.aspentravelapp.ui.theme.Teal
@@ -22,7 +21,7 @@ import com.example.aspentravelapp.ui.theme.Typography
 
 @Composable
 fun PopularSection(
-    navHostController: NavHostController,
+    navigateToItemInfo: (Int) -> Unit,
     locations: Locations
 ) {
 
@@ -36,7 +35,7 @@ fun PopularSection(
             modifier = Modifier
                 .clickable (
                     interactionSource = interactionSource,
-                    null // Чтобы не было clickable эффекта
+                    null
                 ){
 
                 }
@@ -56,7 +55,7 @@ fun PopularSection(
         }
         LocationContent(
             locations = locations,
-            navHostController = navHostController
+            navigateToItemInfo = navigateToItemInfo
         )
     }
 }
