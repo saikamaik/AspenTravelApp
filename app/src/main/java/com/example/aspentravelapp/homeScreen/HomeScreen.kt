@@ -1,10 +1,10 @@
 package com.example.aspentravelapp.homeScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +23,7 @@ import com.example.aspentravelapp.R
 import com.example.aspentravelapp.homeScreen.components.CitiesDropDownMenu
 import com.example.aspentravelapp.homeScreen.components.PopularSection
 import com.example.aspentravelapp.homeScreen.components.RecommendedSection
-import com.example.aspentravelapp.homeScreen.components.search.SearchBarUI
+import com.example.aspentravelapp.homeScreen.components.search.SearchBar
 import com.example.aspentravelapp.homeScreen.components.tabs.TabButtonBar
 import com.example.aspentravelapp.homeScreen.uievent.HomeUiEvent
 import com.example.aspentravelapp.launchScreen.components.boxText.BoxGradient
@@ -49,47 +49,60 @@ fun HomeScreen(
             }
     ) {
         BoxGradient(image = uiState.imageSize)
-        Column(
-            modifier = Modifier
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 40.dp
-                )
-                .verticalScroll(
-                    rememberScrollState()
-                )
-        ) {
-            Row(
-                verticalAlignment = Alignment.Top
+        Column {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = 40.dp
+                    )
             ) {
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.explore),
+                        style = Typography.bodyMedium
+                    )
+                    CitiesDropDownMenu(
+                        uiState, viewModel
+                    )
+                }
                 Text(
-                    text = stringResource(id = R.string.explore),
-                    style = Typography.bodyMedium
+                    text = uiState.selectedLocation.substringBefore(","),
+                    style = Typography.labelMedium
                 )
-                Spacer(Modifier.weight(1f))
-                CitiesDropDownMenu(
-                    uiState, viewModel
+                SearchBar(
+                    viewModel = viewModel,
+                    uiState = uiState
                 )
             }
-            Text(
-                text = uiState.selectedLocation.substringBefore(","),
-                style = Typography.labelMedium
-            )
-            SearchBarUI(viewModel = viewModel,
-                uiState = uiState)
-            TabButtonBar(
-                labels = labels,
-                selectedOption = uiState.selectedTabOption,
-                viewModel
-            )
-            PopularSection(
-                locations = uiState.location,
-                navigateToItemInfo = navigateToItemInfo
-            )
-            RecommendedSection(
-                locations = uiState.location
-            )
+            Column(
+                modifier = Modifier
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = 16.dp
+                    )
+                    .verticalScroll(
+                        rememberScrollState()
+                    )
+            ) {
+                TabButtonBar(
+                    labels = labels,
+                    selectedOption = uiState.selectedTabOption,
+                    viewModel
+                )
+                PopularSection(
+                    locations = uiState.location,
+                    navigateToItemInfo = navigateToItemInfo
+                )
+                RecommendedSection(
+                    locations = uiState.location
+                )
+            }
         }
     }
 }

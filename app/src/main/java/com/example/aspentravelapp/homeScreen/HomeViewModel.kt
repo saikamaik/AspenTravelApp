@@ -33,7 +33,17 @@ class HomeViewModel @Inject constructor(
             is HomeUiEvent.ChangeSelectedMenuItem -> changeSelectedMenuItem(event.item)
             is HomeUiEvent.ChangeSelectedTabOption -> onSelectionChange(event.item)
             is HomeUiEvent.ChangeImageSize -> changeImageSizeValue(event.size)
+            is HomeUiEvent.ChangeSearchViewActiveState -> changeSearchViewActiveState()
+            is HomeUiEvent.SetTextValue -> setTextValue(event.newString)
         }
+    }
+
+    private fun setTextValue(newString: String) {
+        _uiState.value = _uiState.value.copy(searchText = newString)
+    }
+
+    private fun changeSearchViewActiveState() {
+        _uiState.value = _uiState.value.copy(isSearchViewActive = !_uiState.value.isSearchViewActive)
     }
 
     private fun changeImageSizeValue(size: IntSize) {
@@ -70,7 +80,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSearchTextChanged(changedSearchText: String) {
-        _uiState.value = _uiState.value.copy(searchText = changedSearchText)
         _uiState.value = _uiState.value.copy(matchedCities = listOf())
         _uiState.value = _uiState.value.copy(isSearching = true)
         getCity(changedSearchText)

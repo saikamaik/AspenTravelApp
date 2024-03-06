@@ -14,5 +14,6 @@ data class HomeUiState(
     var searchText: String = "",
     var isDropDownMenuExpanded: Boolean = false,
     var matchedCities: List<City> = listOf(),
-    var isSearching: Boolean = false
+    var isSearching: Boolean = false,
+    var isSearchViewActive: Boolean = false
 )
