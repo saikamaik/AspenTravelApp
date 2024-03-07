@@ -17,7 +17,8 @@ data class Location(
     val reviews: Int,
     val paintRes: Int,
     val days: String?,
-    val type: Type
+    val type: Type,
+    var isLiked: Boolean
 )
 
 object LocationObject {
@@ -42,7 +43,8 @@ object LocationObject {
                 reviews = 355,
                 paintRes = R.drawable.imgfirst_background,
                 null,
-                type = Type.POPULAR
+                type = Type.POPULAR,
+                false
             ),
             Location(
                 id = 1,
@@ -59,7 +61,8 @@ object LocationObject {
                 reviews = 325,
                 paintRes = R.drawable.imgsec_background,
                 null,
-                type = Type.POPULAR
+                type = Type.POPULAR,
+                false
             ),
             Location(
                 id = 3,
@@ -84,7 +87,8 @@ object LocationObject {
                 reviews = 12,
                 paintRes = R.drawable.location_rec_first_background,
                 "4N/5D",
-                type = Type.RECOMMENDED
+                type = Type.RECOMMENDED,
+                false
             ),
             Location(
                 id = 4,
@@ -96,7 +100,8 @@ object LocationObject {
                 reviews = 56,
                 paintRes = R.drawable.location_rec_second_backbround,
                 "2N/3D",
-                type = Type.RECOMMENDED
+                type = Type.RECOMMENDED,
+                false
             )
         )
     }

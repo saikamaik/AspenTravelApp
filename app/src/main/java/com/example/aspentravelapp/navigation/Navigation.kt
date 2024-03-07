@@ -6,9 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.aspentravelapp.homeScreen.HomeScreen
-import com.example.aspentravelapp.itemInfoScreen.ItemInfoScreen
-import com.example.aspentravelapp.launchScreen.LaunchScreen
+import com.example.aspentravelapp.presentation.homeScreen.HomeScreen
+import com.example.aspentravelapp.presentation.itemInfoScreen.ItemInfoScreen
+import com.example.aspentravelapp.presentation.launchScreen.LaunchScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -19,16 +19,12 @@ fun Navigation(navController: NavHostController) {
     ) {
         composable(Screen.Launch.route) {
             LaunchScreen(
-                navigateToHomeScreen = {
-                    navController.navigate(Screen.Home.route)
-                }
+                navController
             )
         }
         composable(Screen.Home.route) {
             HomeScreen(
-                navigateToItemInfo = { id ->
-                    navController.navigate(Screen.ItemInfo.route + "/$id")
-                }
+                navController
             )
         }
         composable(
@@ -37,7 +33,9 @@ fun Navigation(navController: NavHostController) {
                 type = NavType.IntType
             })
         ){
-            ItemInfoScreen()
+            ItemInfoScreen(
+                navController
+            )
         }
     }
 }
